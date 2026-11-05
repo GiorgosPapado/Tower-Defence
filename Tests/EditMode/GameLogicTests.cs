@@ -7,9 +7,10 @@ public class GameLogicTests
     {
         var go = new GameObject("enemy");
         go.transform.position = pos;
-        var e = go.AddComponent<Enemies>();   // Awake/OnEnable run: registers itself
+        var e = go.AddComponent<Enemies>();
         e.health = health;
         e.distanceToGoal = distanceToGoal;
+        EnemyRegistry.Register(e);   // OnEnable does not run for normal components in edit mode
         return go;
     }
 
