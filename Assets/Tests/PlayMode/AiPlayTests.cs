@@ -96,4 +96,32 @@ public class AiPlayTests
         Debug.Log("TIMING mean wall=" + (wallTotal / 5).ToString("F2") + "s mean sim=" + (simTotal / 5).ToString("F1") + "s");
         AssertClockRestored();
     }
+
+    private static EpisodeConfig JitterCfg()
+    {
+        return new EpisodeConfig { HealthMultiplier = 1f, RelativeJitter = 0.05f, SimCap = Cap };
+    }
+
+    [UnityTest]
+    public IEnumerator Trained_Policy_Is_Deterministic_With_Hp_Jitter()
+    {
+        PolicyMetadata meta;
+        MlpPolicy trained = PolicyIO.LoadResource("builder_policy", out meta);
+        Assert.IsNotNull(trained);
+        EpisodeResult a = null, b = null;
+        yield return EpisodeRunner.Run(trained, 4, JitterCfg(), r => a = r);
+        yield return EpisodeRunner.Run(trained, 4, JitterCfg(), r => b = r);
+        AssertClockRestored();
+        Assert.AreEqual(a, b, "Episodes differ:\nA: " + a + "\nB: " + b);
+    }
+
+    [UnityTest]
+    public IEnumerator Random_Policy_Is_Deterministic_With_Hp_Jitter()
+    {
+        EpisodeResult a = null, b = null;
+        yield return EpisodeRunner.Run(new RandomPolicy(5004), 4, JitterCfg(), r => a = r);
+        yield return EpisodeRunner.Run(new RandomPolicy(5004), 4, JitterCfg(), r => b = r);
+        AssertClockRestored();
+        Assert.AreEqual(a, b, "Episodes differ:\nA: " + a + "\nB: " + b);
+    }
 }

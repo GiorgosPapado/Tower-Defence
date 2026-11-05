@@ -112,12 +112,17 @@ Note: the Trained policy was trained with all types allowed; here its actions ar
 
 ## Findings
 
-Everything below is read from the tables above (N = 30 per cell, one scene, one run of the matrix; nothing was tuned on evaluation seeds).
+Everything below is read from the tables above (N = 30 per cell, one scene, one run of the matrix). Provenance and caveats:
+
+- The HP-scale grid and the training HP band were chosen from a calibration run on seeds 1-10, which overlap the evaluation seeds (1-30). The policy parameters and the HeuristicTuned variant were selected on training seeds only (1000-1999).
+- The shipped policy is generation 6 of 30: the first generation to reach the 240 ceiling, selected on 6 centre seeds inside the training range (`builder-training.csv`). Later generations tie at the ceiling; training saturates from about generation 18 (all candidates score 240, so the rank updates are zero). The x1.5/x1.7 degradation below may therefore reflect this checkpoint choice rather than the method. The metadata `trainReturn` is selection-maximised (optimistic). `planCommit` 0aa7c6f is the first commit of the range; the training code was then the working tree, not an exact commit.
+- The HP jitter is deterministic per seed (a sawtooth, not random draws), and Trained, Heuristic and HeuristicTuned are deterministic, so the Wilson intervals describe the jitter population rather than sampling variance. Seeds are paired across policies; the verdicts treat the cells as independent, which is a conservative statement only.
+- All results here are from the headless fixed-step simulation (0.133 s per frame). A finer-step check is in [realtime-check.md](realtime-check.md); an exact re-run of 10 episodes is in [spot-check.md](spot-check.md).
 
 ### Trained vs baselines
 
-- **vs Random:** Trained is clearly better at every HP scale (win-rate Wilson CIs and return intervals do not overlap), from x1.0 (1.00 vs 0.73 win rate) to x1.7 (1.00 vs 0.03).
-- **vs plain Heuristic (cycle):** tied on win rate at x1.0 and x1.2 (both 30/30, CIs overlap), although Trained has a higher return at x1.2 (240.0 vs 173.7 +- 1.8: the heuristic only just survives, 3.4 lives left). Trained is clearly better from x1.3 (1.00 vs 0.60) and at x1.4-1.7 (the heuristic wins 0/30, Wilson upper bound 0.114).
+- **vs Random:** Trained is clearly better at every HP scale (win-rate Wilson CIs and return intervals do not overlap), from x1.0 (1.00 vs 0.73 win rate, in the headless fixed-step simulation (0.133 s per frame)) to x1.7 (1.00 vs 0.03).
+- **vs plain Heuristic (cycle):** tied on win rate at x1.0 and x1.2 (both 30/30, CIs overlap), although Trained also has a higher return than the plain heuristic at x1.0 and x1.2 (at x1.2: 240.0 vs 173.7 +- 1.8, the heuristic only just survives with 3.4 lives left). Trained is clearly better from x1.3 (1.00 vs 0.60) and at x1.4-1.7 (the heuristic wins 0/30, Wilson upper bound 0.114).
 - **vs HeuristicTuned (variant "standard", i.e. only standard turrets):** **no win-rate difference at any scale** (both 30/30 everywhere; the CIs are identical, [0.886, 1]). On return, Trained is indistinguishable at x1.0-1.4 (both 240.0, the maximum for this setup) and **worse at x1.5 (233.3 +- 1.4 vs 240.0) and x1.7 (156.0 +- 1.9 vs 240.0)**: it still wins every episode but loses most or all of its lives at x1.7. So the learned policy does not beat a competent hand-written baseline; the result "Trained beats Heuristic" in the previous phases was largely because the plain heuristic wastes money on missile/laser turrets.
 - **Why the tuned baseline wins:** on the selection seeds (training seeds 1000-1049, HP x1.35) the "standard" variant won 50/50 with mean return 240.0, the other three variants won 24%-38% (cycle and std+missile are identical: 47.7 +- 9.0; std+laser 71.9 +- 10.4). The choice was made on those training-range seeds only. The ceiling (R = 240: win, 10 lives, 8 waves) means the baseline saturates, so the evaluation cannot show Trained being *better* than it in the tested range; it can only show "equal" or "worse".
 
@@ -128,15 +133,19 @@ Everything below is read from the tables above (N = 30 per cell, one scene, one 
 
 ### Turret-type ablation (balance finding)
 
-- **Standard turrets alone** win 30/30 at both x1.3 and x1.4 for every policy (even Random: 239.0 +- 0.6 and 237.3 +- 1.3). **Missile-only and laser-only lose 0/30 at both scales for every policy** (upper bound 0.114), dying at wave 2.
-- Reading: standard is individually strongest by a wide margin, missile and laser are weakest (tied at 0/30; laser-only finishes with the same R = 10 as missile-only). Because the start money is 500 and costs are 100 / 250 / 300, a missile-only build can afford 2 turrets and a laser-only build only 1, and with no kills there is no income to expand. So this is a combined cost-and-power effect: with the current prices and enemy health, missile and laser are not viable as an opening, and the game is effectively solved by spamming the cheap turret. For game balance this suggests lowering missile/laser cost or raising their damage (or lowering the start-money gate) if they are meant to be competitive. This experiment cannot separate "too expensive" from "too weak" (no per-kill attribution and no cost sweep).
+- **Standard turrets alone** win 30/30 at both x1.3 and x1.4 for every policy (even Random: 239.0 +- 0.6 and 237.3 +- 1.3). **Missile-only and laser-only lose 0/30 at both scales for every policy** (upper bound 0.114), in the headless fixed-step simulation (0.133 s per frame); they reach wave 3 and clear 2 waves.
+- Reading: standard is individually strongest by a wide margin, missile and laser are weakest (tied at 0/30; laser-only finishes with the same R = 10 as missile-only). Because the start money is 500 and costs are 100 / 250 / 300, a missile-only build can afford 2 turrets and a laser-only build only 1, and with no kills there is no income to expand. So this is a combined cost-and-power effect: with the current prices and enemy health, missile and laser are not viable as an opening, and, in the headless fixed-step simulation (0.133 s per frame), the game is effectively solved by spamming the cheap turret (see the real-time check for how far this holds at a finer step). For game balance this suggests lowering missile/laser cost or raising their damage (or lowering the start-money gate) if they are meant to be competitive. This experiment cannot separate "too expensive" from "too weak" (no per-kill attribution and no cost sweep).
 - The Trained results in the ablation are out-of-distribution for it (it was trained with all types allowed; actions are masked here). It still matches the others, because under a standard-only mask it simply builds standard turrets (15 of them on average instead of 24, so it leaves money unspent without losing).
 
 ### Limitations
 
 - Single scene / map, single deterministic game; the only source of variation between episodes is the +-5% HP jitter derived from the seed (plus the Random policy's own RNG). 30 seeds per cell; zero-variance cells (e.g. 30/30 with SE 0) say little beyond "always wins within this jitter".
 - Ceiling effect: the best baseline reaches the maximum return across x1.0-1.7, so the matrix cannot rank policies there. A harder scale (x1.8-2.0, where calibration saw everything losing without the tuned variant being tried) or a second scene would be needed to separate Trained from HeuristicTuned.
-- Narrow training band (x1.3-1.4), one training seed (1), one trained policy; no variance across training runs.
+- Narrow training band (x1.3-1.4), one training seed (1), one trained policy; no variance across training runs and no second training seed.
+- Observation clamping: the per-type turret counts (/20) saturate at 24 turrets and HeuristicPolicy miscounts after 20 turrets are built; the HP observation (/5000) is clamped and the HP multiplier itself is not observable by the policy.
+- No slot-layout hash is stored in the policy file, so a changed map would not be detected on load.
+- Determinism is tested only for the policy/seed pairs in the tests, not for the whole matrix.
+- Cliff location, "wins 30/30 at x1.0" and the balance finding all hold for the headless fixed-step simulation (0.133 s per frame) only.
 - HeuristicTuned selection used four hand-picked variants only; the plain Heuristic is brittle (its win rate flips from 1.0 to 0.0 between x1.3 and x1.4), which is why the comparison against it looks so favourable to Trained.
 - The ablation reads out cost and power together (see above) and is out-of-distribution for Trained.
 - The raw per-episode results are in `builder-eval.json`.

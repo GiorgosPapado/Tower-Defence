@@ -50,4 +50,17 @@ public class BuilderControllerTests
             Object.DestroyImmediate(go);
         }
     }
+
+    [TestCase(int.MaxValue)]
+    [TestCase(1 << 30)]
+    [TestCase(PolicyIO.MaxHidden + 1)]
+    [TestCase(-5)]
+    public void Hostile_Hidden_Size_Is_Rejected_Without_Overflow(int hidden)
+    {
+        string json = "{\"type\":\"mlp\",\"formatVersion\":" + PolicyIO.FormatVersion
+            + ",\"specVersion\":" + BuilderSpec.SpecVersion + ",\"obsSize\":" + BuilderSpec.ObsSize
+            + ",\"hidden\":" + hidden + ",\"actions\":" + BuilderSpec.ActionCount + ",\"weightBits\":[]}";
+        Assert.Throws<System.FormatException>(() => PolicyIO.FromJson(json));
+        Assert.GreaterOrEqual(MlpPolicy.ParamCount(BuilderSpec.ObsSize, int.MaxValue, BuilderSpec.ActionCount), 0);
+    }
 }

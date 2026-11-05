@@ -1,0 +1,422 @@
+{
+    "note": "Fine step: captureDeltaTime 1/60 s, timeScale 1 (0.0167 game s per frame). Decision interval 1.0 s game time. Seeds 1-10, RelativeJitter 0.05. Coarse = evaluation step 1/30 s x 4 = 0.133 s per frame (same seeds 1-10 from builder-eval.json).",
+    "wallSeconds": 447.2396247,
+    "cells": [
+        {
+            "policy": "Trained",
+            "variant": "",
+            "id": "Trained|1",
+            "scale": 1.0,
+            "n": 10,
+            "winRate": 1.0,
+            "meanLives": 10.0,
+            "meanReturn": 240.0,
+            "meanSim": 133.2999053955078,
+            "wallSeconds": 164.1565344,
+            "episodes": [
+                {
+                    "seed": 1,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.0103834867477417,
+                    "sim": 133.3115692138672,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 2,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.0189898014068604,
+                    "sim": 133.3115692138672,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 3,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.027596116065979,
+                    "sim": 133.2449188232422,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 4,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.0362024307250977,
+                    "sim": 133.3115692138672,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 5,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.0448087453842163,
+                    "sim": 133.36155700683594,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 6,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 0.9534150958061218,
+                    "sim": 133.3448944091797,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 7,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 0.9620213508605957,
+                    "sim": 133.2782440185547,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 8,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 0.9706276655197144,
+                    "sim": 133.2782440185547,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 9,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 0.979233980178833,
+                    "sim": 133.2782440185547,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 10,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 0.9878402948379517,
+                    "sim": 133.2782440185547,
+                    "ret": 240.0
+                }
+            ]
+        },
+        {
+            "policy": "HeuristicTuned",
+            "variant": "standard",
+            "id": "HeuristicTuned|1",
+            "scale": 1.0,
+            "n": 10,
+            "winRate": 1.0,
+            "meanLives": 10.0,
+            "meanReturn": 240.0,
+            "meanSim": 133.03663635253906,
+            "wallSeconds": 87.00171209999999,
+            "episodes": [
+                {
+                    "seed": 1,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.0103834867477417,
+                    "sim": 133.06163024902344,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 2,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.0189898014068604,
+                    "sim": 133.06163024902344,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 3,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.027596116065979,
+                    "sim": 133.0116424560547,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 4,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.0362024307250977,
+                    "sim": 133.06163024902344,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 5,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.0448087453842163,
+                    "sim": 133.06163024902344,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 6,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 0.9534150958061218,
+                    "sim": 132.99497985839844,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 7,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 0.9620213508605957,
+                    "sim": 133.06163024902344,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 8,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 0.9706276655197144,
+                    "sim": 132.99497985839844,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 9,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 0.979233980178833,
+                    "sim": 133.06163024902344,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 10,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 0.9878402948379517,
+                    "sim": 132.99497985839844,
+                    "ret": 240.0
+                }
+            ]
+        },
+        {
+            "policy": "Trained",
+            "variant": "",
+            "id": "Trained|1.4",
+            "scale": 1.399999976158142,
+            "n": 10,
+            "winRate": 1.0,
+            "meanLives": 10.0,
+            "meanReturn": 240.0,
+            "meanSim": 134.68123474121094,
+            "wallSeconds": 108.09991029999999,
+            "episodes": [
+                {
+                    "seed": 1,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.414536952972412,
+                    "sim": 134.7778778076172,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 2,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.4265857934951782,
+                    "sim": 134.76121520996094,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 3,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.4386346340179443,
+                    "sim": 134.72789001464844,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 4,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.4506834745407104,
+                    "sim": 134.76121520996094,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 5,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.462732195854187,
+                    "sim": 134.82786560058594,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 6,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.3347810506820679,
+                    "sim": 134.66123962402344,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 7,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.346829891204834,
+                    "sim": 134.66123962402344,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 8,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.3588787317276,
+                    "sim": 134.19468688964844,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 9,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.3709275722503662,
+                    "sim": 134.7112274169922,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 10,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.3829764127731323,
+                    "sim": 134.72789001464844,
+                    "ret": 240.0
+                }
+            ]
+        },
+        {
+            "policy": "HeuristicTuned",
+            "variant": "standard",
+            "id": "HeuristicTuned|1.4",
+            "scale": 1.399999976158142,
+            "n": 10,
+            "winRate": 1.0,
+            "meanLives": 10.0,
+            "meanReturn": 240.0,
+            "meanSim": 134.0180633544922,
+            "wallSeconds": 87.9640683,
+            "episodes": [
+                {
+                    "seed": 1,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.414536952972412,
+                    "sim": 133.36155700683594,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 2,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.4265857934951782,
+                    "sim": 134.2446746826172,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 3,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.4386346340179443,
+                    "sim": 134.2779998779297,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 4,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.4506834745407104,
+                    "sim": 134.22801208496094,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 5,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.462732195854187,
+                    "sim": 133.29490661621094,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 6,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.3347810506820679,
+                    "sim": 133.16160583496094,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 7,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.346829891204834,
+                    "sim": 134.1446990966797,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 8,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.3588787317276,
+                    "sim": 134.5112762451172,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 9,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.3709275722503662,
+                    "sim": 134.4779510498047,
+                    "ret": 240.0
+                },
+                {
+                    "seed": 10,
+                    "win": true,
+                    "lives": 10,
+                    "wavesCleared": 8,
+                    "hp": 1.3829764127731323,
+                    "sim": 134.4779510498047,
+                    "ret": 240.0
+                }
+            ]
+        }
+    ]
+}

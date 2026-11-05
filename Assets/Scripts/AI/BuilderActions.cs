@@ -79,6 +79,8 @@ public static class BuilderActions
 
         BuildManager.instance.SelectTurretToBuild(ctx.Blueprint(type));
         BuildManager.instance.BuildTurretOn(node);
+        // Never leave a blueprint selected: otherwise the player's next Node click would build it.
+        BuildManager.instance.SelectTurretToBuild(null);
         return node.turret != null;
     }
 }

@@ -90,23 +90,41 @@ public class BuilderController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(toggleKey)) Toggle();
+        if (!GameManager.gameEnded && Input.GetKeyDown(toggleKey)) Toggle();
 
         if (!enabledFlag || GameManager.gameEnded || Time.timeScale <= 0f) return;
 
+        // Same order as EpisodeRunner: decide first, then add this frame's deltaTime.
+        if (sinceDecision >= decisionInterval)
+        {
+            sinceDecision -= decisionInterval;
+            Decide();
+        }
         sinceDecision += Time.deltaTime;
-        if (sinceDecision < decisionInterval) return;
-        sinceDecision -= decisionInterval;
-        Decide();
+    }
+
+    private const float RebuildBackoff = 5f;
+    private float nextRebuildTime;
+
+    private static bool IsStale(BuilderContext c)
+    {
+        // Unity-null checks: a scene reload destroys nodes/shop/spawner but leaves the managed references.
+        if (c == null || c.Shop == null || c.Spawner == null || c.Slots[0] == null) return true;
+        for (int i = 0; i < c.Slots.Length; i++)
+            if ((object)c.Slots[i] != null && c.Slots[i] == null) return true;
+        return false;
     }
 
     private void Decide()
     {
         if (BuildManager.instance == null) return;
         if (policy == null) policy = LoadPolicyOrFallback(PolicyResource);
-        // Unity-null checks: the context is stale after a scene reload (its nodes/shop were destroyed).
-        if (ctx == null || ctx.Shop == null || ctx.Slots[0] == null) ctx = BuilderContext.FromScene();
-        if (ctx.Shop == null) return;
+        if (IsStale(ctx))
+        {
+            if (Time.time < nextRebuildTime) return;   // back off on maps without nodes/shop/spawner
+            ctx = BuilderContext.FromScene();
+            if (IsStale(ctx)) { nextRebuildTime = Time.time + RebuildBackoff; return; }
+        }
 
         int type, cost;
         BuilderActions.Step(policy, ctx, obs, mask, out type, out cost);

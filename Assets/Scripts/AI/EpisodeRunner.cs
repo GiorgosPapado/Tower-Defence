@@ -22,6 +22,11 @@ public sealed class EpisodeConfig
     public float DecisionInterval = 1f;
     /// <summary>Simulated seconds after which the episode is counted as a loss.</summary>
     public float SimCap = 600f;
+
+    /// <summary>Fixed frame length (Time.captureDeltaTime). Default = the evaluation step (1/30 s).</summary>
+    public float CaptureDeltaTime = SimClock.DefaultCaptureDeltaTime;
+    /// <summary>Time.timeScale during the episode. Game seconds per frame = CaptureDeltaTime * TimeScale. Default 4.</summary>
+    public float TimeScale = SimClock.DefaultTimeScale;
 }
 
 /// <summary>Outcome of one episode.</summary>
@@ -91,6 +96,11 @@ public static class EpisodeRunner
         {
             Difficulty.HealthMultiplier = result.hpMultiplier;
 
+            // captureDeltaTime persists across scene loads: start the fixed clock BEFORE loading, with timeScale 0
+            // so no game time passes (no real-frame deltaTime reaches WaveSpawner) until the first decision.
+            SimClock.Begin(cfg.CaptureDeltaTime, 0f);
+            clockOn = true;
+
             yield return SceneManager.LoadSceneAsync(cfg.SceneName);
             yield return null;   // let Start() run (PlayerStats sets money and lives)
             yield return null;
@@ -100,8 +110,7 @@ public static class EpisodeRunner
             float[] obs = BuilderObservation.Create();
             bool[] mask = BuilderActions.CreateMask();
 
-            SimClock.Begin();
-            clockOn = true;
+            Time.timeScale = cfg.TimeScale;
 
             float elapsed = 0f;
             float sinceDecision = cfg.DecisionInterval;   // decide on the first frame

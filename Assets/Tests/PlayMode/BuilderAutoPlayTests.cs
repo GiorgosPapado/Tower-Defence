@@ -64,6 +64,7 @@ public class BuilderAutoPlayTests
         Assert.AreEqual("MlpPolicy", ctl.PolicyName);
         Assert.IsTrue(GameManager.gameEnded, "Game did not end within 600 sim s");
         Assert.Greater(turrets, 0, "Controller built nothing");
+        // Intentional regression gate for the SHIPPED policy at default HP: it breaks on a retrain or a rebalance by design.
         Assert.Greater(PlayerStats.Lives, 0, "Trained policy lost the game at default HP");
         Assert.IsFalse(SimClock.IsActive);
     }

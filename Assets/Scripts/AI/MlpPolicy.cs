@@ -35,7 +35,8 @@ public sealed class MlpPolicy : IBuilderPolicy
 
     public static int ParamCount(int obsSize, int hidden, int actions)
     {
-        return hidden * obsSize + hidden + actions * hidden + actions;
+        long n = (long)hidden * obsSize + hidden + (long)actions * hidden + actions;
+        return n > int.MaxValue ? int.MaxValue : (int)n;
     }
 
     public int ParamCount()

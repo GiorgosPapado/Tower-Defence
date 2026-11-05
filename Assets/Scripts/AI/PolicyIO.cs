@@ -50,6 +50,8 @@ public static class PolicyIO
 {
     public const string PolicyType = "mlp";
     public const int FormatVersion = 1;
+    /// <summary>Upper bound for the hidden width accepted from JSON (guards against hostile sizes).</summary>
+    public const int MaxHidden = 4096;
 
     public static string ToJson(MlpPolicy policy, PolicyMetadata metadata)
     {
@@ -93,7 +95,7 @@ public static class PolicyIO
         if (file.specVersion != BuilderSpec.SpecVersion || file.obsSize != BuilderSpec.ObsSize || file.actions != BuilderSpec.ActionCount)
             throw new FormatException("Policy was trained for a different BuilderSpec (spec " + file.specVersion
                 + ", obs " + file.obsSize + ", actions " + file.actions + ")");
-        if (file.hidden <= 0 || file.weightBits.Length != MlpPolicy.ParamCount(file.obsSize, file.hidden, file.actions))
+        if (file.hidden <= 0 || file.hidden > MaxHidden || file.weightBits.Length != MlpPolicy.ParamCount(file.obsSize, file.hidden, file.actions))
             throw new FormatException("Policy weight count does not match its dimensions");
 
         var policy = new MlpPolicy(file.obsSize, file.hidden, file.actions);
