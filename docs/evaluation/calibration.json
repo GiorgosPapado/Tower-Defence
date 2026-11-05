@@ -1,0 +1,27 @@
+{
+  "unity": "6000.6.8f1",
+  "seeds": "1..10",
+  "wallSeconds": 127.981,
+  "cells": [
+    {"hp": 1, "policy": "Random", "episodes": 10, "winRate": 0.8, "meanLives": 7, "meanR": 184},
+    {"hp": 1, "policy": "Heuristic", "episodes": 10, "winRate": 1, "meanLives": 9, "meanR": 230},
+    {"hp": 1.1, "policy": "Random", "episodes": 10, "winRate": 0.8, "meanLives": 6.4, "meanR": 178},
+    {"hp": 1.1, "policy": "Heuristic", "episodes": 10, "winRate": 1, "meanLives": 9, "meanR": 230},
+    {"hp": 1.2, "policy": "Random", "episodes": 10, "winRate": 0.7, "meanLives": 4.5, "meanR": 146.5},
+    {"hp": 1.2, "policy": "Heuristic", "episodes": 10, "winRate": 1, "meanLives": 3, "meanR": 170},
+    {"hp": 1.3, "policy": "Random", "episodes": 10, "winRate": 0.5, "meanLives": 3.3, "meanR": 109.5},
+    {"hp": 1.3, "policy": "Heuristic", "episodes": 10, "winRate": 1, "meanLives": 2, "meanR": 160},
+    {"hp": 1.4, "policy": "Random", "episodes": 10, "winRate": 0.2, "meanLives": 1.2, "meanR": 50.5},
+    {"hp": 1.4, "policy": "Heuristic", "episodes": 10, "winRate": 0, "meanLives": 0, "meanR": 10},
+    {"hp": 1.5, "policy": "Random", "episodes": 10, "winRate": 0.2, "meanLives": 1.4, "meanR": 52.5},
+    {"hp": 1.5, "policy": "Heuristic", "episodes": 10, "winRate": 0, "meanLives": 0, "meanR": 10},
+    {"hp": 2, "policy": "Random", "episodes": 10, "winRate": 0, "meanLives": 0, "meanR": 10},
+    {"hp": 2, "policy": "Heuristic", "episodes": 10, "winRate": 0, "meanLives": 0, "meanR": 10},
+    {"hp": 2.5, "policy": "Random", "episodes": 10, "winRate": 0, "meanLives": 0, "meanR": 10},
+    {"hp": 2.5, "policy": "Heuristic", "episodes": 10, "winRate": 0, "meanLives": 0, "meanR": 10},
+    {"hp": 3, "policy": "Random", "episodes": 10, "winRate": 0, "meanLives": 0, "meanR": 10},
+    {"hp": 3, "policy": "Heuristic", "episodes": 10, "winRate": 0, "meanLives": 0, "meanR": 10},
+    {"hp": 4, "policy": "Random", "episodes": 10, "winRate": 0, "meanLives": 0, "meanR": 10},
+    {"hp": 4, "policy": "Heuristic", "episodes": 10, "winRate": 0, "meanLives": 0, "meanR": 10}
+  ]
+}

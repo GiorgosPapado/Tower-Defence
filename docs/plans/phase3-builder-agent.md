@@ -91,3 +91,4 @@ Run commands (PowerShell): `Unity.exe -batchmode -nographics -projectPath <repo>
 2. Reward weights (100/10/5) and K=24 slots are my choices; adjust if you prefer.
 3. Evaluation budget: 30 seeds per cell; raise if the CIs are too wide to separate policies.
 4. Does "win rate per turret type" mean ablation (only that type allowed)? Assumed yes (no per-kill attribution in the game code).
+5. **Calibration result (Phase 3 step A):** `docs/evaluation/calibration.md`. At HP x1.0 the heuristic wins always; at x2.0+ every policy loses every episode; the cliff is between x1.3 and x1.4 (heuristic 100% -> 0%, Random 50% -> 20%). No band separates the policies cleanly; training uses HP jitter 1.3-1.4 (heuristic near 50%) instead of 0.85-1.25 from the plan. Evaluation HP scales in Phase 4 should be revisited accordingly (e.g. {1.0, 1.2, 1.3, 1.4}).

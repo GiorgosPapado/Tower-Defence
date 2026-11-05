@@ -1,0 +1,9 @@
+{
+  "trainedCenterR": 240,
+  "heuristicR": 12.5,
+  "randomR": 149.167,
+  "seeds": "1900-1905",
+  "hpBand": [1.3, 1.4],
+  "bestGeneration": 6,
+  "totalWallSeconds": 2036.343
+}

@@ -23,7 +23,7 @@ public sealed class EvolutionStrategy
     private readonly int population;
     private readonly float sigma;
     private readonly float learningRate;
-    private readonly Random rng;
+    private Random rng;
 
     private float[][] noise;       // one perturbation per antithetic pair (population / 2)
     private float[][] candidates;  // population candidates handed out by Ask()
@@ -53,6 +53,15 @@ public sealed class EvolutionStrategy
     public int Dimension { get { return dim; } }
     public int PopulationSize { get { return population; } }
     public int Generation { get { return generation; } }
+
+    /// <summary>Restore a saved search state (resume): centre, generation counter and a fresh RNG stream.</summary>
+    public void Restore(float[] savedTheta, int savedGeneration, int rngSeed)
+    {
+        if (savedTheta == null || savedTheta.Length != dim) throw new ArgumentException("theta length mismatch");
+        Array.Copy(savedTheta, theta, dim);
+        generation = savedGeneration;
+        rng = new Random(rngSeed);
+    }
 
     /// <summary>Copy of the current search centre.</summary>
     public float[] GetTheta()
