@@ -84,7 +84,7 @@ README.md                  MOD  AI section (real numbers only)
 3. **Training**: `EvolutionStrategy`, training driver test (env `TD_TRAIN=1`, `TD_GENERATIONS`, `TD_POP`, `TD_SEED`), run it, commit policy JSON + CSV.
 4. **Evaluation / balance**: matrix driver test (env `TD_EVAL=1`), run it, write `docs/evaluation/builder-<date>.{md,json}`.
 5. **In-game AI mode**: `BuilderController`, `SceneBuilder` toggle, rebuild scene, auto-play PlayMode test, README section.
-Run commands (PowerShell): `Unity.exe -batchmode -nographics -projectPath <repo> -runTests -testPlatform PlayMode -testFilter "Category=Training" -testResults <xml> -logFile <log>`.
+Run commands (PowerShell): `Unity.exe -batchmode -nographics -projectPath <repo> -runTests -testPlatform PlayMode -testCategory "Training" -testResults <xml> -logFile <log>`.
 
 ### Open Questions
 1. **Trainer choice (assumption made):** in-Unity ES instead of ML-Agents PPO because Python 3.12 cannot install a Unity-6-compatible `mlagents`. If you want PPO anyway: needs Python 3.10 (~25 MB) + PyTorch CPU (~200 MB) downloaded, plus the `com.unity.ml-agents` package version check for Unity 6000.6 - requires your approval for the downloads.

@@ -193,6 +193,12 @@ public static class SceneBuilder
         var bPause = Btn(ui, "Pause (P)", new Vector2(0, 0), new Vector2(120, 40), new Vector2(200, 60), new Color(0.35f, 0.35f, 0.35f));
         UnityEventTools.AddPersistentListener(bPause.onClick, new UnityAction(paused.Toggle));
 
+        // AI auto-play: controller on the game master, toggle button above the pause button
+        var builderAi = gm.AddComponent<BuilderController>();
+        var bAi = Btn(ui, "AI: OFF", new Vector2(0, 0), new Vector2(120, 110), new Vector2(200, 60), new Color(0.4f, 0.3f, 0.5f));
+        builderAi.labelText = bAi.GetComponentInChildren<TextMeshProUGUI>();
+        UnityEventTools.AddPersistentListener(bAi.onClick, new UnityAction(builderAi.Toggle));
+
         // panels
         GameObject pausePanel = Panel(ui, "PausePanel", "PAUSED", out Transform pauseRoot);
         var bResume = Btn(pauseRoot, "Resume", new Vector2(0.5f, 0.5f), new Vector2(0, -40), new Vector2(240, 64), new Color(0.3f, 0.5f, 0.3f));

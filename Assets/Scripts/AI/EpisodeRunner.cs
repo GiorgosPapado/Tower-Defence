@@ -140,15 +140,8 @@ public static class EpisodeRunner
 
     private static void Decide(IBuilderPolicy policy, BuilderContext ctx, float[] obs, bool[] mask, EpisodeResult result)
     {
-        if (BuildManager.instance == null) return;
-        BuilderObservation.Build(ctx, obs);
-        BuilderActions.ComputeMask(ctx, mask);
-        int action = policy.Act(obs, mask);
-
-        int slot, type;
-        if (!BuilderSpec.Decode(action, out slot, out type)) return;
-        int cost = ctx.Cost(type);
-        if (BuilderActions.Apply(ctx, action))
+        int type, cost;
+        if (BuilderActions.Step(policy, ctx, obs, mask, out type, out cost))
         {
             result.turretsByType[type]++;
             result.moneySpent += cost;

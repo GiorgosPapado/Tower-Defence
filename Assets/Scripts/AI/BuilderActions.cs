@@ -48,6 +48,25 @@ public static class BuilderActions
             && PlayerStats.Money >= ctx.Cost(type);
     }
 
+    /// <summary>
+    /// One decision step shared by EpisodeRunner and BuilderController: observe, mask, ask the policy, apply.
+    /// Returns true if a turret was built (type and cost describe it); false otherwise or if there is no BuildManager.
+    /// </summary>
+    public static bool Step(IBuilderPolicy policy, BuilderContext ctx, float[] obs, bool[] mask, out int type, out int cost)
+    {
+        type = -1;
+        cost = 0;
+        if (BuildManager.instance == null) return false;
+        BuilderObservation.Build(ctx, obs);
+        ComputeMask(ctx, mask);
+        int action = policy.Act(obs, mask);
+
+        int slot;
+        if (!BuilderSpec.Decode(action, out slot, out type)) return false;
+        cost = ctx.Cost(type);
+        return Apply(ctx, action);
+    }
+
     /// <summary>Execute an action. Returns true only if a turret was actually built; invalid actions change nothing.</summary>
     public static bool Apply(BuilderContext ctx, int action)
     {
