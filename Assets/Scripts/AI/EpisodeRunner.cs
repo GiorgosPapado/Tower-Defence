@@ -15,6 +15,8 @@ public sealed class EpisodeConfig
     public bool JitterHp;
     public float JitterLo = 0.85f;
     public float JitterHi = 1.25f;
+    /// <summary>Extra seed-dependent relative jitter: multiplier *= (1 + u), u uniform in [-RelativeJitter, +RelativeJitter]. 0 = off.</summary>
+    public float RelativeJitter;
 
     /// <summary>Simulated seconds between two policy decisions.</summary>
     public float DecisionInterval = 1f;
@@ -80,6 +82,8 @@ public static class EpisodeRunner
         result.hpMultiplier = cfg.JitterHp
             ? Difficulty.JitterFromSeed(seed, cfg.JitterLo, cfg.JitterHi)
             : cfg.HealthMultiplier;
+        if (cfg.RelativeJitter > 0f)
+            result.hpMultiplier *= 1f + Difficulty.RelativeJitterFromSeed(seed, cfg.RelativeJitter);
 
         BuilderContext ctx = null;
         bool clockOn = false;

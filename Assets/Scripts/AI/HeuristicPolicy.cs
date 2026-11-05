@@ -6,7 +6,32 @@
 /// </summary>
 public sealed class HeuristicPolicy : IBuilderPolicy
 {
-    private static readonly int[] Cycle = { 0, 1, 0, 2 };   // standard, missile, standard, laser
+    private static readonly int[] DefaultCycle = { 0, 1, 0, 2 };   // standard, missile, standard, laser
+
+    /// <summary>Fixed type-mix variants (used to build the tuned baseline).</summary>
+    public static readonly string[] VariantNames = { "cycle", "standard", "std+missile", "std+laser" };
+
+    private readonly int[] Cycle;
+
+    public HeuristicPolicy() : this(DefaultCycle) { }
+
+    public HeuristicPolicy(int[] cycle)
+    {
+        Cycle = (cycle != null && cycle.Length > 0) ? (int[])cycle.Clone() : DefaultCycle;
+    }
+
+    /// <summary>Heuristic with a named type mix (see VariantNames). Unknown names throw.</summary>
+    public static HeuristicPolicy Variant(string name)
+    {
+        switch (name)
+        {
+            case "cycle": return new HeuristicPolicy(DefaultCycle);
+            case "standard": return new HeuristicPolicy(new[] { 0 });
+            case "std+missile": return new HeuristicPolicy(new[] { 0, 1 });
+            case "std+laser": return new HeuristicPolicy(new[] { 0, 2 });
+        }
+        throw new System.ArgumentException("Unknown heuristic variant '" + name + "'");
+    }
 
     public int Act(float[] obs, bool[] mask)
     {

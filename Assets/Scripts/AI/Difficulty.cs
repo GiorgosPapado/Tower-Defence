@@ -24,6 +24,17 @@ public static class Difficulty
         return lo + (float)rng.NextDouble() * (hi - lo);
     }
 
+    /// <summary>
+    /// Deterministic relative jitter u in [-halfWidth, +halfWidth] derived from an episode seed; 0 when halfWidth is 0.
+    /// The HP multiplier is then scale * (1 + u).
+    /// </summary>
+    public static float RelativeJitterFromSeed(int seed, float halfWidth)
+    {
+        if (halfWidth <= 0f) return 0f;
+        var rng = new System.Random(unchecked(seed * 7919 + 13));
+        return (float)((rng.NextDouble() * 2.0 - 1.0) * halfWidth);
+    }
+
     // Keeps the value clean when "Enter Play Mode without domain reload" is enabled.
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void ResetOnLoad()
