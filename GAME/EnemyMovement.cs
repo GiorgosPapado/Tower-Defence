@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Enemies))]
@@ -9,7 +7,6 @@ public class EnemyMovement : MonoBehaviour
     private int wavepointIndex = 0;
 
     private Enemies enemy;
-
 
     void Start()
     {
@@ -25,9 +22,20 @@ public class EnemyMovement : MonoBehaviour
         if (Vector3.Distance(transform.position, target.position) <= 0.2f)
         {
             GetNextWaypoint();
+            if (this == null) return;   // destroyed at the end of the path
         }
 
-        enemy.speed = enemy.startSpeed;
+        enemy.distanceToGoal = RemainingDistance();
+    }
+
+    float RemainingDistance()
+    {
+        float d = Vector3.Distance(transform.position, target.position);
+        for (int i = wavepointIndex; i < WayPoints.points.Length - 1; i++)
+        {
+            d += Vector3.Distance(WayPoints.points[i].position, WayPoints.points[i + 1].position);
+        }
+        return d;
     }
 
     void GetNextWaypoint()
@@ -47,5 +55,4 @@ public class EnemyMovement : MonoBehaviour
         PlayerStats.Lives--;
         Destroy(gameObject);
     }
-
 }

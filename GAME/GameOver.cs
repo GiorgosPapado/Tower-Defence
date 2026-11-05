@@ -15,6 +15,8 @@ public class GameOver : MonoBehaviour
 
     public void Retry()
     {
+        Time.timeScale = 1f;          // OnEnable froze time; unfreeze before reloading
+        GameManager.gameEnded = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

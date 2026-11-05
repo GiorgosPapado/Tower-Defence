@@ -8,6 +8,7 @@ public class Turret : MonoBehaviour
     private Enemies targetEnemy;
 
     [Header("Attributes")]
+    public TargetPriority priority = TargetPriority.Closest;
     public float range = 15f;
     public float fireRate = 1f;
     private float fireCountdown = 0f;
@@ -33,18 +34,9 @@ public class Turret : MonoBehaviour
 
     void UpdateTarget()
     {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
-        float shortestDistance = Mathf.Infinity;
-        GameObject nearestEnemy = null;
-        foreach (GameObject enemy in enemies)
-        {
-            float distanceToEnemy = Vector3.Distance(transform.position, enemy.transform.position);
-                if(distanceToEnemy< shortestDistance)
-            {
-                shortestDistance = distanceToEnemy;
-                nearestEnemy = enemy;
-            }
-        }
+        Enemies best = TargetSelector.Select(EnemyRegistry.All, transform.position, range, priority);
+        GameObject nearestEnemy = best != null ? best.gameObject : null;
+        float shortestDistance = best != null ? 0f : Mathf.Infinity;
 
         if(nearestEnemy != null && shortestDistance <= range)
         {

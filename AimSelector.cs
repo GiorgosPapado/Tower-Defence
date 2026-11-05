@@ -1,3 +1,7 @@
+// VR-only helper. Needs the Oculus Integration package; add the scripting define
+// TOWERDEFENCE_VR (Project Settings > Player) to enable it. Disabled by default so
+// the project compiles without Oculus.
+#if TOWERDEFENCE_VR
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,3 +32,5 @@ public class AimSelector : MonoBehaviour
          }
     }
 }
+
+#endif

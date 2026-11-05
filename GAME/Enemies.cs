@@ -11,35 +11,84 @@ public class Enemies : MonoBehaviour
     public float health = 100;
     public int value = 30;
 
+    // Remaining path length, kept up to date by EnemyMovement. Used for "First/Last" targeting.
+    [HideInInspector]
+    public float distanceToGoal;
+
     [Header("Unity Stuff")]
     public Image HealthBar;
 
-    private void Start()
+    private float maxHealth;
+    private float slowPct;
+    private float slowTimer;
+    private bool isDead;
+
+    public float MaxHealth { get { return maxHealth; } }
+    public bool IsDead { get { return isDead; } }
+
+    private void Awake()
     {
+        maxHealth = Mathf.Max(1f, health);
         speed = startSpeed;
+    }
+
+    private void OnEnable()
+    {
+        EnemyRegistry.Register(this);
+    }
+
+    private void OnDisable()
+    {
+        EnemyRegistry.Unregister(this);
+    }
+
+    private void Update()
+    {
+        ApplySlowDecay(Time.deltaTime);
+    }
+
+    public void ApplySlowDecay(float dt)
+    {
+        if (slowTimer > 0f)
+        {
+            slowTimer -= dt;
+            speed = startSpeed * (1f - slowPct);
+        }
+        else
+        {
+            speed = startSpeed;
+        }
     }
 
     public void TakeDamage(float amount)
     {
+        if (isDead) return;
+
         health -= amount;
 
-        HealthBar.fillAmount = health / 100f;
+        if (HealthBar != null)
+            HealthBar.fillAmount = Mathf.Clamp01(health / maxHealth);
 
-        if(health <= 0)
+        if (health <= 0)
         {
             Die();
         }
     }
 
-    public void Slow(float pct)
+    /// <summary>Slow for a short time; call every frame while a slow source is active.</summary>
+    public void Slow(float pct, float duration = 0.25f)
     {
-        speed = startSpeed * (1f - pct);
+        slowPct = Mathf.Clamp01(pct);
+        slowTimer = duration;
+        speed = startSpeed * (1f - slowPct);
     }
 
     void Die()
     {
+        isDead = true;
         PlayerStats.Money += value;
-        Destroy(gameObject);
-    }
 
+        if (Application.isPlaying) Destroy(gameObject);
+        else DestroyImmediate(gameObject);
+    }
 }
