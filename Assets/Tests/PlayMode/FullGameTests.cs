@@ -10,6 +10,7 @@ public class FullGameTests
     [TearDown]
     public void ResetTime()
     {
+        SimClock.ForceRestore();
         Time.timeScale = 1f;
     }
 
@@ -19,11 +20,11 @@ public class FullGameTests
         yield return SceneManager.LoadSceneAsync("Main");
         yield return null;
 
-        Time.timeScale = 15f;
+        SimClock.Begin();   // fixed 1/30 s frames x4: deterministic and fast
         float elapsed = 0f;
-        while (!GameManager.gameEnded && elapsed < 240f)
+        while (!GameManager.gameEnded && elapsed < 600f)
         {
-            elapsed += Time.unscaledDeltaTime;
+            elapsed += Time.deltaTime;   // simulated seconds
             yield return null;
         }
 
@@ -50,10 +51,10 @@ public class FullGameTests
         nodes.Sort((a, b) => PathDistance(a).CompareTo(PathDistance(b)));
 
         int next = 0;
-        Time.timeScale = 15f;
+        SimClock.Begin();   // fixed 1/30 s frames x4: deterministic and fast
         float elapsed = 0f;
 
-        while (!GameManager.gameEnded && elapsed < 240f)
+        while (!GameManager.gameEnded && elapsed < 600f)
         {
             // Spend money as it comes in: laser, then missile, then standard.
             while (next < nodes.Count)
@@ -69,7 +70,7 @@ public class FullGameTests
                 next++;
             }
 
-            elapsed += Time.unscaledDeltaTime;
+            elapsed += Time.deltaTime;   // simulated seconds
             yield return null;
         }
 

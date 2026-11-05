@@ -28,6 +28,7 @@ public class Enemies : MonoBehaviour
 
     private void Awake()
     {
+        health *= Difficulty.HealthMultiplier;   // balance tester / training hook, 1 in normal play
         maxHealth = Mathf.Max(1f, health);
         speed = startSpeed;
     }

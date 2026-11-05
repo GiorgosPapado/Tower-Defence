@@ -20,6 +20,7 @@ public class WaveSpawner : MonoBehaviour
     public int WaveNumber { get { return waveIndex; } }
     public int TotalWaves { get { return waves == null ? 0 : waves.Length; } }
     public float Countdown { get { return countdown; } }
+    public bool IsSpawning { get { return spawning; } }
     private bool HasWaves { get { return waves != null && waves.Length > 0; } }
 
     void Update()

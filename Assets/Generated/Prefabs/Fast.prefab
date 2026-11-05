@@ -281,8 +281,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: TowerDefence.Runtime::Enemies
   startSpeed: 12
   speed: 0
-  health: 75
-  value: 14
+  health: 60
+  value: 17
   distanceToGoal: 0
   HealthBar: {fileID: 1420205491542601604}
 --- !u!114 &7470867644427995978

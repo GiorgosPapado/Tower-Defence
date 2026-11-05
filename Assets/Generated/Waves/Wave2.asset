@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: TowerDefence.Runtime::WaveDefinition
   groups:
   - enemyPrefab: {fileID: 2465537769125332961, guid: 5e0a886d1ca02044bb5ebf146b1451b1, type: 3}
-    count: 10
-    spawnInterval: 0.7
+    count: 8
+    spawnInterval: 0.8
     delayBefore: 0
