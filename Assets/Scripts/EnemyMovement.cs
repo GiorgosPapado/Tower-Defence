@@ -16,13 +16,14 @@ public class EnemyMovement : MonoBehaviour
 
     private void Update()
     {
-        Vector3 dir = target.position - transform.position;
-        transform.Translate(dir.normalized * enemy.speed * Time.deltaTime, Space.World);
+        if (enemy.IsDead) return;
 
-        if (Vector3.Distance(transform.position, target.position) <= 0.2f)
+        // MoveTowards never overshoots, so enemies cannot orbit a waypoint at high speed.
+        transform.position = Vector3.MoveTowards(transform.position, target.position, enemy.speed * Time.deltaTime);
+
+        if ((transform.position - target.position).sqrMagnitude <= 0.0025f)
         {
-            GetNextWaypoint();
-            if (this == null) return;   // destroyed at the end of the path
+            if (!AdvanceWaypoint()) return;   // leaked: enemy is gone
         }
 
         enemy.distanceToGoal = RemainingDistance();
@@ -38,21 +39,16 @@ public class EnemyMovement : MonoBehaviour
         return d;
     }
 
-    void GetNextWaypoint()
+    bool AdvanceWaypoint()
     {
         if (wavepointIndex >= WayPoints.points.Length - 1)
         {
-            EndPath();
-            return;
+            enemy.Leak();
+            return false;
         }
 
         wavepointIndex++;
         target = WayPoints.points[wavepointIndex];
-    }
-
-    void EndPath()
-    {
-        PlayerStats.Lives--;
-        Destroy(gameObject);
+        return true;
     }
 }

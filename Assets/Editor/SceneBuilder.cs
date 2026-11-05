@@ -68,9 +68,9 @@ public static class SceneBuilder
         GameObject tLas = MakeTurret("LaserTurret", dark, cyan, null, 8f, 1f, true, 45, beam);
 
         // --- enemies
-        Transform eGrunt = MakeEnemy("Grunt", grunt, 0.9f, 100f, 6f, 15);
-        Transform eFast = MakeEnemy("Fast", fast, 0.7f, 55f, 11f, 20);
-        Transform eTank = MakeEnemy("Tank", tank, 1.4f, 450f, 3.5f, 50);
+        Transform eGrunt = MakeEnemy("Grunt", grunt, 0.9f, 130f, 6.5f, 10);
+        Transform eFast = MakeEnemy("Fast", fast, 0.7f, 75f, 12f, 14);
+        Transform eTank = MakeEnemy("Tank", tank, 1.4f, 700f, 3.8f, 40);
 
         // --- waves
         var waves = new List<WaveDefinition>
@@ -129,13 +129,13 @@ public static class SceneBuilder
         var gm = new GameObject("GameMaster");
         var stats = gm.AddComponent<PlayerStats>();
         stats.startLives = 10;
-        stats.startMoney = 500;
+        stats.startMoney = 400;
         var manager = gm.AddComponent<GameManager>();
         gm.AddComponent<BuildManager>();
         var spawner = gm.AddComponent<WaveSpawner>();
         spawner.spawnPoint = spawn;
         spawner.enemyPrefab = eGrunt;
-        spawner.timeBetweenWaves = 8f;
+        spawner.timeBetweenWaves = 6f;
         spawner.waves = waves.ToArray();
         var paused = gm.AddComponent<Paused>();
 

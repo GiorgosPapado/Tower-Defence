@@ -129,10 +129,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60dfda67109c456439e0fa21c5f759d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: TowerDefence.Runtime::Enemies
-  startSpeed: 3.5
+  startSpeed: 3.8
   speed: 0
-  health: 450
-  value: 50
+  health: 700
+  value: 40
   distanceToGoal: 0
   HealthBar: {fileID: 4924194486855537383}
 --- !u!114 &9041445225184004587

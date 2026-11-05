@@ -35,22 +35,27 @@ public class Turret : MonoBehaviour
     void UpdateTarget()
     {
         Enemies best = TargetSelector.Select(EnemyRegistry.All, transform.position, range, priority);
-        GameObject nearestEnemy = best != null ? best.gameObject : null;
-        float shortestDistance = best != null ? 0f : Mathf.Infinity;
-
-        if(nearestEnemy != null && shortestDistance <= range)
+        if (best != null)
         {
-            target = nearestEnemy.transform;
-            targetEnemy = nearestEnemy.GetComponent<Enemies>();
+            target = best.transform;
+            targetEnemy = best;
         }
         else
         {
             target = null;
+            targetEnemy = null;
         }
     }
 
     private void Update()
     {
+        // The target is only re-picked every 0.5 s; drop it at once if it died or left range.
+        if (target != null && (targetEnemy == null || targetEnemy.IsDead ||
+            (target.position - transform.position).sqrMagnitude > range * range * 1.21f))
+        {
+            target = null;
+            targetEnemy = null;
+        }
         if (target == null)
         {
             if (useLaser)
@@ -84,6 +89,7 @@ public class Turret : MonoBehaviour
     void LockOnTarget()
         {
             Vector3 dir = target.position - transform.position;
+    if (dir.sqrMagnitude < 0.0001f) return;
     Quaternion lookRotation = Quaternion.LookRotation(dir);
     Vector3 rotation = Quaternion.Lerp(partToRotate.rotation, lookRotation, Time.deltaTime * turnSpeed).eulerAngles;
     partToRotate.rotation = Quaternion.Euler(0f, rotation.y, 0f);

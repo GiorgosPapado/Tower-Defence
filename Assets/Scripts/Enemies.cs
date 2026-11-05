@@ -83,6 +83,17 @@ public class Enemies : MonoBehaviour
         speed = startSpeed * (1f - slowPct);
     }
 
+    /// <summary>Enemy reached the end of the path: costs a life, cannot be killed afterwards.</summary>
+    public void Leak()
+    {
+        if (isDead) return;
+        isDead = true;
+        PlayerStats.Lives--;
+
+        if (Application.isPlaying) Destroy(gameObject);
+        else DestroyImmediate(gameObject);
+    }
+
     void Die()
     {
         isDead = true;

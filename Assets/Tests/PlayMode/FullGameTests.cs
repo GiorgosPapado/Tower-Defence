@@ -7,6 +7,30 @@ using UnityEngine.TestTools;
 
 public class FullGameTests
 {
+    [TearDown]
+    public void ResetTime()
+    {
+        Time.timeScale = 1f;
+    }
+
+    [UnityTest]
+    public IEnumerator Without_Turrets_The_Game_Is_Lost()
+    {
+        yield return SceneManager.LoadSceneAsync("Main");
+        yield return null;
+
+        Time.timeScale = 15f;
+        float elapsed = 0f;
+        while (!GameManager.gameEnded && elapsed < 240f)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        Assert.IsTrue(GameManager.gameEnded, "Game never ended with no defence");
+        Assert.LessOrEqual(PlayerStats.Lives, 0, "With no turrets the player must lose");
+    }
+
     [UnityTest]
     public IEnumerator Main_Scene_Plays_To_An_End_State_Without_Errors()
     {
@@ -50,8 +74,10 @@ public class FullGameTests
         }
 
         Time.timeScale = 1f;
+        Debug.Log("RESULT rounds=" + PlayerStats.Rounds + " lives=" + PlayerStats.Lives + " turrets=" + next);
 
         Assert.IsTrue(GameManager.gameEnded, "Game did not reach win or lose within the time limit");
+        Assert.Greater(PlayerStats.Lives, 0, "A competent bot should win; the game is mis-balanced or broken");
         Assert.GreaterOrEqual(PlayerStats.Rounds, 1, "No wave was spawned");
         Assert.Greater(next, 0, "No turret was built");
         Debug.Log("RESULT rounds=" + PlayerStats.Rounds + " lives=" + PlayerStats.Lives + " turrets=" + next);

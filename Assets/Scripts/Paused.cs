@@ -17,6 +17,12 @@ public class Paused : MonoBehaviour
 
     public void Toggle()
     {
+        if (GameManager.gameEnded)
+            return;
+
+        if (GameManager.gameEnded)
+            return;
+
         ui.SetActive(!ui.activeSelf);
 
         if (ui.activeSelf)

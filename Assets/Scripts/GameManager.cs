@@ -36,12 +36,21 @@ public class GameManager : MonoBehaviour
     void EndGame()
     {
         gameEnded = true;
-        gameOverUI.SetActive(true);
+        if (gameOverUI != null)
+            gameOverUI.SetActive(true);
     }
 
     public void Win()
     {
         if (gameEnded) return;
+
+        // The last enemy may have leaked on the same frame: that is a loss, not a win.
+        if (PlayerStats.Lives <= 0)
+        {
+            EndGame();
+            return;
+        }
+
         gameEnded = true;
 
         if (winUI != null)
